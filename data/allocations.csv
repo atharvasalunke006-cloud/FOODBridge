@@ -1,0 +1,4 @@
+allocation_id,donation_id,recipient_id,organization_name,allocated_meals,match_score,allocated_at,status
+ALC-5001,DON-1003,REC-2001,Hope Community Shelter,60,94.0,2026-10-13 21:30,Completed
+ALC-5002,DON-1003,REC-2002,Sunshine Children Home,60,89.5,2026-10-13 21:35,Completed
+ALC-5003,DON-1004,REC-2004,Westside Food Bank,60,91.0,2026-10-13 14:15,Matched

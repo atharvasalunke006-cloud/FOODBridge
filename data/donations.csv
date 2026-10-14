@@ -1,0 +1,12 @@
+donation_id,donor_name,food_name,category,quantity_meals,pickup_location,prep_datetime,pickup_deadline,status,created_at
+DON-1001,Campus Central Cafeteria,Rice & Dal with Vegetables,Cooked Meals,75,North Campus Hub,2026-10-14 09:30,2026-10-14 15:00,Pending,2026-10-14 09:45
+DON-1002,Green Valley Bakery,Assorted Whole Wheat Bread & Buns,Bakery,40,Downtown Station,2026-10-14 07:00,2026-10-14 18:00,Pending,2026-10-14 07:30
+DON-1003,Grand Banquet Hall,Paneer Curry & Steamed Rice,Cooked Meals,120,East Wing Plaza,2026-10-13 21:00,2026-10-14 04:00,Completed,2026-10-13 21:30
+DON-1004,Metro Supermarket,Apples Oranges and Bananas,Fresh Produce,60,West Market Hub,2026-10-13 14:00,2026-10-15 12:00,Matched,2026-10-13 14:15
+DON-1005,Sunrise Hotel & Suites,Breakfast Buffet Pastries & Fruits,Bakery,35,South City Center,2026-10-14 10:30,2026-10-14 16:30,Pending,2026-10-14 10:45
+DON-1006,City Tech Park Canteen,Vegetable Biryani & Raita,Cooked Meals,90,Tech Corridor Gate 2,2026-10-13 13:00,2026-10-13 17:00,Completed,2026-10-13 13:10
+DON-1007,Farm Fresh Dairy,Milk Packets & Greek Yogurt,Dairy,50,North Campus Hub,2026-10-14 08:00,2026-10-15 08:00,Matched,2026-10-14 08:20
+DON-1008,Golden Crust Pizzeria,Flatbreads & Sandwiches,Cooked Meals,30,Downtown Station,2026-10-13 22:00,2026-10-14 08:00,Completed,2026-10-13 22:15
+DON-1009,University Hostel Mess,Mixed Veg Khichdi,Cooked Meals,85,North Campus Hub,2026-10-14 11:00,2026-10-14 16:00,Pending,2026-10-14 11:15
+DON-1010,Cornerstone Grocery,Canned Beans & Mixed Grain Packs,Packaged Goods,110,West Market Hub,2026-10-12 10:00,2026-10-20 18:00,Completed,2026-10-12 10:30
+DON-1011,atharva,veg rice meal box,Cooked Meals,30,Downtown Station,2026-10-14 11:00,2026-10-14 16:00,Pending,2026-10-14 12:31

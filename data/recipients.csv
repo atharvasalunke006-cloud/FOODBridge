@@ -1,0 +1,9 @@
+recipient_id,organization_name,contact_person,location,needed_meals,accepted_categories,urgency_level,status
+REC-2001,Hope Community Shelter,Sarah Jenkins,Downtown Station,60,Cooked Meals;Bakery;Packaged Goods,High,Active
+REC-2002,Sunshine Children Home,David Miller,North Campus Hub,80,Cooked Meals;Dairy;Fresh Produce,High,Active
+REC-2003,St. Jude Elder Care Center,Sister Mary,East Wing Plaza,45,Cooked Meals;Dairy;Bakery,Medium,Active
+REC-2004,Westside Food Bank,Rajesh Sharma,West Market Hub,120,Packaged Goods;Fresh Produce;Bakery,Normal,Active
+REC-2005,Urban Youth Support Center,Anita Patel,Tech Corridor Gate 2,50,Cooked Meals;Bakery,Medium,Active
+REC-2006,New Dawn Night Refuge,Robert Taylor,South City Center,70,Cooked Meals;Packaged Goods,High,Active
+REC-2007,Grace Valley Mission,Father Thomas,East Wing Plaza,40,Cooked Meals;Dairy,Normal,Active
+REC-2008,Caring Hands Community Pantry,Amina Begum,North Campus Hub,65,Cooked Meals;Fresh Produce;Packaged Goods,Medium,Active

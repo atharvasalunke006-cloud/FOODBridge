@@ -1,0 +1,51 @@
+date,location,category,meals_demanded,meals_supplied
+2026-09-15,Downtown Station,Cooked Meals,120,105
+2026-09-15,North Campus Hub,Cooked Meals,140,130
+2026-09-16,West Market Hub,Fresh Produce,95,85
+2026-09-16,East Wing Plaza,Cooked Meals,80,80
+2026-09-17,South City Center,Bakery,60,50
+2026-09-17,Tech Corridor Gate 2,Cooked Meals,110,95
+2026-09-18,Downtown Station,Cooked Meals,130,120
+2026-09-18,North Campus Hub,Dairy,75,70
+2026-09-19,West Market Hub,Packaged Goods,100,90
+2026-09-19,South City Center,Cooked Meals,85,75
+2026-09-20,North Campus Hub,Cooked Meals,150,140
+2026-09-20,East Wing Plaza,Bakery,50,45
+2026-09-21,Downtown Station,Cooked Meals,125,115
+2026-09-21,Tech Corridor Gate 2,Cooked Meals,105,100
+2026-09-22,West Market Hub,Fresh Produce,110,95
+2026-09-22,North Campus Hub,Cooked Meals,145,135
+2026-09-23,South City Center,Packaged Goods,70,65
+2026-09-23,Downtown Station,Cooked Meals,135,125
+2026-09-24,East Wing Plaza,Cooked Meals,90,85
+2026-09-24,North Campus Hub,Dairy,80,75
+2026-09-25,Tech Corridor Gate 2,Cooked Meals,115,105
+2026-09-25,West Market Hub,Fresh Produce,100,90
+2026-09-26,Downtown Station,Cooked Meals,140,130
+2026-09-26,South City Center,Bakery,65,60
+2026-09-27,North Campus Hub,Cooked Meals,160,150
+2026-09-27,East Wing Plaza,Cooked Meals,95,90
+2026-09-28,Downtown Station,Cooked Meals,130,120
+2026-09-28,Tech Corridor Gate 2,Cooked Meals,110,100
+2026-09-29,West Market Hub,Packaged Goods,120,110
+2026-09-29,North Campus Hub,Cooked Meals,155,145
+2026-09-30,South City Center,Cooked Meals,90,80
+2026-09-30,Downtown Station,Cooked Meals,135,125
+2026-10-01,North Campus Hub,Dairy,85,80
+2026-10-01,East Wing Plaza,Cooked Meals,100,90
+2026-10-02,Downtown Station,Cooked Meals,145,135
+2026-10-02,West Market Hub,Fresh Produce,105,95
+2026-10-03,Tech Corridor Gate 2,Cooked Meals,120,110
+2026-10-03,South City Center,Bakery,70,65
+2026-10-04,North Campus Hub,Cooked Meals,165,155
+2026-10-04,East Wing Plaza,Cooked Meals,90,85
+2026-10-05,Downtown Station,Cooked Meals,140,130
+2026-10-06,West Market Hub,Packaged Goods,115,105
+2026-10-07,North Campus Hub,Cooked Meals,170,160
+2026-10-08,Downtown Station,Cooked Meals,135,125
+2026-10-09,Tech Corridor Gate 2,Cooked Meals,125,115
+2026-10-10,South City Center,Cooked Meals,95,85
+2026-10-11,North Campus Hub,Fresh Produce,110,100
+2026-10-12,East Wing Plaza,Bakery,60,55
+2026-10-13,Downtown Station,Cooked Meals,140,130
+2026-10-14,North Campus Hub,Cooked Meals,150,140

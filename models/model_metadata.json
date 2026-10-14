@@ -1,0 +1,481 @@
+{
+  "model_name": "RandomForestRegressor_FoodDemand",
+  "training_timestamp": "2026-10-14 15:53:21",
+  "dataset_type": "Synthetic Development Dataset",
+  "dataset_provenance": "Generated synthetic simulation modeling campus food service demand patterns.",
+  "target_variable": "num_orders",
+  "features": [
+    "location",
+    "category",
+    "day_of_week",
+    "is_weekend",
+    "month",
+    "base_price",
+    "discount_percent",
+    "is_promotion"
+  ],
+  "train_samples": 10560,
+  "test_samples": 2640,
+  "train_date_range": [
+    "2025-08-01",
+    "2026-07-18"
+  ],
+  "test_date_range": [
+    "2026-07-19",
+    "2026-10-14"
+  ],
+  "metrics": {
+    "model_mae": 10.26,
+    "baseline_mae": 54.55,
+    "improvement_pct": 81.19,
+    "test_rmse": 12.81,
+    "test_r2": 0.9628
+  },
+  "daily_test_comparison": [
+    {
+      "date": "2026-07-19",
+      "num_orders": 2667,
+      "predicted_num_orders": 2630
+    },
+    {
+      "date": "2026-07-20",
+      "num_orders": 5413,
+      "predicted_num_orders": 5420
+    },
+    {
+      "date": "2026-07-21",
+      "num_orders": 6028,
+      "predicted_num_orders": 6056
+    },
+    {
+      "date": "2026-07-22",
+      "num_orders": 6126,
+      "predicted_num_orders": 6103
+    },
+    {
+      "date": "2026-07-23",
+      "num_orders": 5959,
+      "predicted_num_orders": 5968
+    },
+    {
+      "date": "2026-07-24",
+      "num_orders": 5685,
+      "predicted_num_orders": 5745
+    },
+    {
+      "date": "2026-07-25",
+      "num_orders": 2772,
+      "predicted_num_orders": 2784
+    },
+    {
+      "date": "2026-07-26",
+      "num_orders": 2653,
+      "predicted_num_orders": 2613
+    },
+    {
+      "date": "2026-07-27",
+      "num_orders": 5483,
+      "predicted_num_orders": 5560
+    },
+    {
+      "date": "2026-07-28",
+      "num_orders": 6032,
+      "predicted_num_orders": 6107
+    },
+    {
+      "date": "2026-07-29",
+      "num_orders": 6205,
+      "predicted_num_orders": 6063
+    },
+    {
+      "date": "2026-07-30",
+      "num_orders": 5910,
+      "predicted_num_orders": 5930
+    },
+    {
+      "date": "2026-07-31",
+      "num_orders": 5809,
+      "predicted_num_orders": 5867
+    },
+    {
+      "date": "2026-08-01",
+      "num_orders": 2858,
+      "predicted_num_orders": 2857
+    },
+    {
+      "date": "2026-08-02",
+      "num_orders": 2656,
+      "predicted_num_orders": 2706
+    },
+    {
+      "date": "2026-08-03",
+      "num_orders": 5502,
+      "predicted_num_orders": 5585
+    },
+    {
+      "date": "2026-08-04",
+      "num_orders": 5952,
+      "predicted_num_orders": 6024
+    },
+    {
+      "date": "2026-08-05",
+      "num_orders": 6100,
+      "predicted_num_orders": 6004
+    },
+    {
+      "date": "2026-08-06",
+      "num_orders": 5738,
+      "predicted_num_orders": 5743
+    },
+    {
+      "date": "2026-08-07",
+      "num_orders": 5823,
+      "predicted_num_orders": 5962
+    },
+    {
+      "date": "2026-08-08",
+      "num_orders": 2944,
+      "predicted_num_orders": 2820
+    },
+    {
+      "date": "2026-08-09",
+      "num_orders": 2617,
+      "predicted_num_orders": 2521
+    },
+    {
+      "date": "2026-08-10",
+      "num_orders": 5647,
+      "predicted_num_orders": 5640
+    },
+    {
+      "date": "2026-08-11",
+      "num_orders": 5936,
+      "predicted_num_orders": 5887
+    },
+    {
+      "date": "2026-08-12",
+      "num_orders": 6071,
+      "predicted_num_orders": 5996
+    },
+    {
+      "date": "2026-08-13",
+      "num_orders": 5955,
+      "predicted_num_orders": 5857
+    },
+    {
+      "date": "2026-08-14",
+      "num_orders": 6040,
+      "predicted_num_orders": 5967
+    },
+    {
+      "date": "2026-08-15",
+      "num_orders": 2893,
+      "predicted_num_orders": 2817
+    },
+    {
+      "date": "2026-08-16",
+      "num_orders": 2632,
+      "predicted_num_orders": 2673
+    },
+    {
+      "date": "2026-08-17",
+      "num_orders": 5338,
+      "predicted_num_orders": 5359
+    },
+    {
+      "date": "2026-08-18",
+      "num_orders": 6250,
+      "predicted_num_orders": 6277
+    },
+    {
+      "date": "2026-08-19",
+      "num_orders": 6318,
+      "predicted_num_orders": 6276
+    },
+    {
+      "date": "2026-08-20",
+      "num_orders": 6004,
+      "predicted_num_orders": 5959
+    },
+    {
+      "date": "2026-08-21",
+      "num_orders": 5635,
+      "predicted_num_orders": 5661
+    },
+    {
+      "date": "2026-08-22",
+      "num_orders": 2842,
+      "predicted_num_orders": 2852
+    },
+    {
+      "date": "2026-08-23",
+      "num_orders": 2674,
+      "predicted_num_orders": 2585
+    },
+    {
+      "date": "2026-08-24",
+      "num_orders": 5352,
+      "predicted_num_orders": 5462
+    },
+    {
+      "date": "2026-08-25",
+      "num_orders": 5938,
+      "predicted_num_orders": 5937
+    },
+    {
+      "date": "2026-08-26",
+      "num_orders": 6077,
+      "predicted_num_orders": 6033
+    },
+    {
+      "date": "2026-08-27",
+      "num_orders": 6011,
+      "predicted_num_orders": 6010
+    },
+    {
+      "date": "2026-08-28",
+      "num_orders": 5687,
+      "predicted_num_orders": 5699
+    },
+    {
+      "date": "2026-08-29",
+      "num_orders": 2761,
+      "predicted_num_orders": 2732
+    },
+    {
+      "date": "2026-08-30",
+      "num_orders": 2552,
+      "predicted_num_orders": 2554
+    },
+    {
+      "date": "2026-08-31",
+      "num_orders": 5455,
+      "predicted_num_orders": 5433
+    },
+    {
+      "date": "2026-09-01",
+      "num_orders": 6039,
+      "predicted_num_orders": 6040
+    },
+    {
+      "date": "2026-09-02",
+      "num_orders": 6215,
+      "predicted_num_orders": 6005
+    },
+    {
+      "date": "2026-09-03",
+      "num_orders": 5993,
+      "predicted_num_orders": 5961
+    },
+    {
+      "date": "2026-09-04",
+      "num_orders": 5669,
+      "predicted_num_orders": 5730
+    },
+    {
+      "date": "2026-09-05",
+      "num_orders": 2945,
+      "predicted_num_orders": 2922
+    },
+    {
+      "date": "2026-09-06",
+      "num_orders": 2729,
+      "predicted_num_orders": 2718
+    },
+    {
+      "date": "2026-09-07",
+      "num_orders": 5608,
+      "predicted_num_orders": 5545
+    },
+    {
+      "date": "2026-09-08",
+      "num_orders": 5817,
+      "predicted_num_orders": 5904
+    },
+    {
+      "date": "2026-09-09",
+      "num_orders": 6069,
+      "predicted_num_orders": 6033
+    },
+    {
+      "date": "2026-09-10",
+      "num_orders": 5928,
+      "predicted_num_orders": 6025
+    },
+    {
+      "date": "2026-09-11",
+      "num_orders": 5651,
+      "predicted_num_orders": 5658
+    },
+    {
+      "date": "2026-09-12",
+      "num_orders": 2978,
+      "predicted_num_orders": 2869
+    },
+    {
+      "date": "2026-09-13",
+      "num_orders": 2524,
+      "predicted_num_orders": 2568
+    },
+    {
+      "date": "2026-09-14",
+      "num_orders": 5241,
+      "predicted_num_orders": 5319
+    },
+    {
+      "date": "2026-09-15",
+      "num_orders": 5898,
+      "predicted_num_orders": 6035
+    },
+    {
+      "date": "2026-09-16",
+      "num_orders": 6277,
+      "predicted_num_orders": 6113
+    },
+    {
+      "date": "2026-09-17",
+      "num_orders": 5779,
+      "predicted_num_orders": 5923
+    },
+    {
+      "date": "2026-09-18",
+      "num_orders": 6007,
+      "predicted_num_orders": 5938
+    },
+    {
+      "date": "2026-09-19",
+      "num_orders": 2876,
+      "predicted_num_orders": 2897
+    },
+    {
+      "date": "2026-09-20",
+      "num_orders": 2606,
+      "predicted_num_orders": 2587
+    },
+    {
+      "date": "2026-09-21",
+      "num_orders": 5360,
+      "predicted_num_orders": 5355
+    },
+    {
+      "date": "2026-09-22",
+      "num_orders": 6100,
+      "predicted_num_orders": 6069
+    },
+    {
+      "date": "2026-09-23",
+      "num_orders": 6154,
+      "predicted_num_orders": 6016
+    },
+    {
+      "date": "2026-09-24",
+      "num_orders": 5887,
+      "predicted_num_orders": 6007
+    },
+    {
+      "date": "2026-09-25",
+      "num_orders": 5554,
+      "predicted_num_orders": 5624
+    },
+    {
+      "date": "2026-09-26",
+      "num_orders": 2946,
+      "predicted_num_orders": 2895
+    },
+    {
+      "date": "2026-09-27",
+      "num_orders": 2580,
+      "predicted_num_orders": 2565
+    },
+    {
+      "date": "2026-09-28",
+      "num_orders": 5440,
+      "predicted_num_orders": 5587
+    },
+    {
+      "date": "2026-09-29",
+      "num_orders": 5899,
+      "predicted_num_orders": 5886
+    },
+    {
+      "date": "2026-09-30",
+      "num_orders": 6148,
+      "predicted_num_orders": 6098
+    },
+    {
+      "date": "2026-10-01",
+      "num_orders": 5902,
+      "predicted_num_orders": 5883
+    },
+    {
+      "date": "2026-10-02",
+      "num_orders": 5776,
+      "predicted_num_orders": 5675
+    },
+    {
+      "date": "2026-10-03",
+      "num_orders": 2702,
+      "predicted_num_orders": 2733
+    },
+    {
+      "date": "2026-10-04",
+      "num_orders": 2600,
+      "predicted_num_orders": 2613
+    },
+    {
+      "date": "2026-10-05",
+      "num_orders": 5524,
+      "predicted_num_orders": 5517
+    },
+    {
+      "date": "2026-10-06",
+      "num_orders": 5938,
+      "predicted_num_orders": 6072
+    },
+    {
+      "date": "2026-10-07",
+      "num_orders": 6392,
+      "predicted_num_orders": 6281
+    },
+    {
+      "date": "2026-10-08",
+      "num_orders": 5795,
+      "predicted_num_orders": 5900
+    },
+    {
+      "date": "2026-10-09",
+      "num_orders": 5681,
+      "predicted_num_orders": 5694
+    },
+    {
+      "date": "2026-10-10",
+      "num_orders": 2959,
+      "predicted_num_orders": 2920
+    },
+    {
+      "date": "2026-10-11",
+      "num_orders": 2540,
+      "predicted_num_orders": 2582
+    },
+    {
+      "date": "2026-10-12",
+      "num_orders": 5434,
+      "predicted_num_orders": 5465
+    },
+    {
+      "date": "2026-10-13",
+      "num_orders": 5947,
+      "predicted_num_orders": 5854
+    },
+    {
+      "date": "2026-10-14",
+      "num_orders": 6496,
+      "predicted_num_orders": 6417
+    }
+  ],
+  "limitations": [
+    "Dataset is synthetic: real-world demand includes unmodeled external shocks (e.g., campus strikes, heavy storms).",
+    "Predicted orders represent consumption demand, NOT available surplus food.",
+    "Surplus food occurs only when prepared meal volume exceeds actual consumption demand."
+  ]
+}
