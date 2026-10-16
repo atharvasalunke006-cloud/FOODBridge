@@ -81,12 +81,32 @@ class TestFoodBridgeCore(unittest.TestCase):
         self.assertEqual(len(forecast), 7)
         self.assertIn("predicted_demand_meals", forecast.columns)
 
-    def test_plotly_palettes(self):
-        import plotly.express as px
-        # Verify that color palettes used in app.py exist without AttributeError
-        self.assertTrue(hasattr(px.colors.sequential, "Tealgrn"))
-        self.assertTrue(hasattr(px.colors.qualitative, "Prism"))
+    def test_maharashtra_locations_available(self):
+        from src.data_manager import get_available_locations, MAHARASHTRA_LOCATIONS
+        locs = get_available_locations()
+        self.assertIsInstance(locs, list)
+        self.assertGreater(len(locs), 5)
+        self.assertTrue(any("Pune" in loc for loc in locs))
+        self.assertTrue(any("Mumbai" in loc for loc in locs))
+
+    def test_save_recipient_validation(self):
+        from src.data_manager import save_recipient
+        # Blank name should fail
+        success, msg = save_recipient("", "Coordinator", "Pune - Kothrud", 50, "Cooked Meals")
+        self.assertFalse(success)
+        self.assertIn("name cannot be empty", msg)
+
+        # Blank location should fail
+        success, msg = save_recipient("Test NGO", "Coordinator", "", 50, "Cooked Meals")
+        self.assertFalse(success)
+        self.assertIn("Location cannot be empty", msg)
+
+        # Non-positive meals should fail
+        success, msg = save_recipient("Test NGO", "Coordinator", "Pune - Kothrud", -5, "Cooked Meals")
+        self.assertFalse(success)
+        self.assertIn("greater than 0", msg)
 
 
 if __name__ == "__main__":
     unittest.main()
+

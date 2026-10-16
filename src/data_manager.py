@@ -73,10 +73,64 @@ DEMAND_COLUMNS = [
     "meals_supplied",
 ]
 
+# Standard Maharashtra Regional Distribution Hubs & Campus Zones
+MAHARASHTRA_LOCATIONS = [
+    "Pune - Shivajinagar",
+    "Pune - Kothrud",
+    "Pune - Hinjawadi (IT Park)",
+    "Pune - Hadapsar",
+    "Pune - Viman Nagar",
+    "Pune - Pimpri-Chinchwad",
+    "Mumbai - Dadar",
+    "Mumbai - Andheri",
+    "Mumbai - Bandra Kurla Complex (BKC)",
+    "Mumbai - Colaba / Fort",
+    "Thane West",
+    "Navi Mumbai - Vashi",
+    "Nashik - College Road",
+    "Nagpur - Sitabuldi",
+    "Chhatrapati Sambhajinagar",
+    "Kolhapur - Shahupuri",
+    "Solapur Central",
+]
+
+
+def get_available_locations() -> list:
+    """
+    Returns a unified list of available locations:
+    Prioritizes curated Maharashtra locations, combined with any custom locations
+    previously recorded in donations or recipients.
+    """
+    locations_set = set(MAHARASHTRA_LOCATIONS)
+    try:
+        donations = load_donations()
+        if not donations.empty and "pickup_location" in donations.columns:
+            for loc in donations["pickup_location"].dropna():
+                loc_clean = str(loc).strip()
+                if loc_clean:
+                    locations_set.add(loc_clean)
+    except Exception:
+        pass
+
+    try:
+        recipients = load_recipients()
+        if not recipients.empty and "location" in recipients.columns:
+            for loc in recipients["location"].dropna():
+                loc_clean = str(loc).strip()
+                if loc_clean:
+                    locations_set.add(loc_clean)
+    except Exception:
+        pass
+
+    # Sort with Maharashtra prime hubs first, then remaining alphabetically
+    base_order = {name: idx for idx, name in enumerate(MAHARASHTRA_LOCATIONS)}
+    return sorted(list(locations_set), key=lambda x: (0, base_order[x]) if x in base_order else (1, x.lower()))
+
 
 def ensure_data_directory() -> None:
     """Creates the data/ directory if it doesn't already exist."""
     DATA_DIR.mkdir(parents=True, exist_ok=True)
+
 
 
 def load_donations() -> pd.DataFrame:
@@ -256,7 +310,98 @@ def save_donation(
         return False, f"Failed to save donation to file: {str(e)}"
 
 
+def generate_recipient_id(df: pd.DataFrame) -> str:
+    """
+    Generates a human-readable sequential recipient ID like REC-2011.
+    """
+    if df.empty or "recipient_id" not in df.columns:
+        return "REC-2001"
+
+    existing_ids = df["recipient_id"].dropna().astype(str)
+    numeric_ids = []
+    for item in existing_ids:
+        parts = item.split("-")
+        if len(parts) == 2 and parts[1].isdigit():
+            numeric_ids.append(int(parts[1]))
+
+    if numeric_ids:
+        next_num = max(numeric_ids) + 1
+    else:
+        next_num = 2001
+
+    return f"REC-{next_num}"
+
+
+def save_recipient(
+    organization_name: str,
+    contact_person: str,
+    location: str,
+    needed_meals: int,
+    accepted_categories: str,
+    urgency_level: str = "Medium",
+    status: str = "Active",
+) -> Tuple[bool, str]:
+    """
+    Validates and appends a new recipient shelter/NGO record to data/recipients.csv.
+
+    Validation Rules:
+    1. Organization name and location cannot be blank.
+    2. Needed meals must be a positive number (> 0).
+    3. Accepted categories cannot be empty.
+    4. Urgency level defaults to 'Medium' if unrecognized.
+
+    Returns:
+        Tuple[bool, str]: (Success boolean, Status message or newly created recipient_id)
+    """
+    org_name = organization_name.strip() if organization_name else ""
+    contact = contact_person.strip() if contact_person else "Program Coordinator"
+    loc = location.strip() if location else ""
+    cats = accepted_categories.strip() if accepted_categories else ""
+    urgency = urgency_level.strip().capitalize() if urgency_level else "Medium"
+
+    if not org_name:
+        return False, "Organization / Shelter name cannot be empty."
+    if not loc:
+        return False, "Location cannot be empty."
+    if not cats:
+        return False, "Please specify at least one accepted food category."
+
+    try:
+        qty = int(needed_meals)
+        if qty <= 0:
+            return False, "Needed meals must be greater than 0."
+    except (ValueError, TypeError):
+        return False, "Needed meals must be a valid whole number."
+
+    if urgency not in ["High", "Medium", "Normal", "Low"]:
+        urgency = "Medium"
+
+    df = load_recipients()
+    new_id = generate_recipient_id(df)
+
+    new_row = {
+        "recipient_id": new_id,
+        "organization_name": org_name,
+        "contact_person": contact,
+        "location": loc,
+        "needed_meals": qty,
+        "accepted_categories": cats,
+        "urgency_level": urgency,
+        "status": status,
+    }
+
+    updated_df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+
+    try:
+        ensure_data_directory()
+        updated_df.to_csv(RECIPIENTS_FILE, index=False, encoding="utf-8")
+        return True, new_id
+    except Exception as e:
+        return False, f"Failed to save recipient to file: {str(e)}"
+
+
 def get_summary_metrics() -> Dict[str, Any]:
+
     """
     Computes key performance indicators from the donations data.
 

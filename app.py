@@ -33,9 +33,13 @@ from src.data_manager import (
     load_demand_history,
     load_allocations,
     save_donation,
+    save_recipient,
+    get_available_locations,
+    MAHARASHTRA_LOCATIONS,
     commit_allocation_plan,
     get_summary_metrics,
 )
+
 from src.matching import (
     get_available_recipients,
     find_matches_for_donation,
@@ -331,130 +335,254 @@ elif menu_selection == "➕ Add Donation":
     st.markdown(
         """
         <div class="hero-banner">
-            <div class="hero-title">Register Surplus Food Donation</div>
-            <div class="hero-sub">Log surplus meals from campus dining, canteens, catering, and partner eateries.</div>
+            <div class="hero-title">Food Redistribution Data Entry (Maharashtra)</div>
+            <div class="hero-sub">Log surplus meals from canteens, catering, and eateries or register community shelters across Maharashtra.</div>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
-    st.markdown(
-        """
-        <div class="disclaimer-badge">
-        ℹ️ Please fill in all mandatory fields accurately. Records are saved locally to <code>data/donations.csv</code>.
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-    st.markdown("<br>", unsafe_allow_html=True)
+    tab_add_don, tab_add_rec = st.tabs([
+        "🍲 Register Food Donation",
+        "🏢 Register Recipient / Shelter NGO",
+    ])
 
-    with st.form("add_donation_form", clear_on_submit=False):
-        col_form1, col_form2 = st.columns(2)
+    # -------------------------------------------------------------------------
+    # TAB 1: REGISTER SURPLUS FOOD DONATION
+    # -------------------------------------------------------------------------
+    with tab_add_don:
+        st.markdown(
+            """
+            <div class="disclaimer-badge">
+            ℹ️ Log surplus food offers in Maharashtra. Select a predefined city hub or enter any custom location manually. Records save to <code>data/donations.csv</code>.
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        st.markdown("<br>", unsafe_allow_html=True)
 
-        with col_form1:
-            donor_name = st.text_input(
-                "Donor / Organization Name *",
-                placeholder="e.g. North Campus Canteen, Bakery Delight",
-                help="Name of the canteen, mess, restaurant, or individual donor.",
-            )
-            food_name = st.text_input(
-                "Food Item Description *",
-                placeholder="e.g. Mixed Veg Pulao, Bread Loaves",
-                help="Briefly describe the food prepared.",
-            )
-            category = st.selectbox(
-                "Food Category *",
-                [
-                    "Cooked Meals",
-                    "Bakery",
-                    "Fresh Produce",
-                    "Packaged Goods",
-                    "Dairy",
-                ],
-                help="Select the category that best matches your food item.",
-            )
-            quantity_meals = st.number_input(
-                "Quantity (Estimated Number of Meals) *",
-                min_value=1,
-                max_value=2000,
-                value=25,
-                step=5,
-                help="One standard meal satisfies one person.",
-            )
+        with st.form("add_donation_form", clear_on_submit=False):
+            col_form1, col_form2 = st.columns(2)
 
-        with col_form2:
-            location_options = [
-                "North Campus Hub",
-                "Downtown Station",
-                "East Wing Plaza",
-                "West Market Hub",
-                "South City Center",
-                "Tech Corridor Gate 2",
-            ]
-            pickup_location = st.selectbox(
-                "Pickup Location *",
-                location_options,
-                help="Select or enter the campus/community zone where food can be picked up.",
-            )
+            with col_form1:
+                donor_name = st.text_input(
+                    "Donor / Organization Name *",
+                    placeholder="e.g. COEP Canteen, German Bakery Kothrud, Atharva",
+                    help="Name of the canteen, mess, restaurant, or individual donor.",
+                )
+                food_name = st.text_input(
+                    "Food Item Description *",
+                    placeholder="e.g. Maharashtrian Veg Thali, Rice & Dal, Bread Loaves",
+                    help="Briefly describe the food prepared.",
+                )
+                category = st.selectbox(
+                    "Food Category *",
+                    [
+                        "Cooked Meals",
+                        "Bakery",
+                        "Fresh Produce",
+                        "Packaged Goods",
+                        "Dairy",
+                    ],
+                    help="Select the category that best matches your food item.",
+                )
+                quantity_meals = st.number_input(
+                    "Quantity (Estimated Number of Meals) *",
+                    min_value=1,
+                    max_value=2000,
+                    value=30,
+                    step=5,
+                    help="One standard meal satisfies one person.",
+                )
 
-            # Date and Time inputs for Preparation
-            st.markdown("**Preparation Date & Time ***")
-            p_date_col, p_time_col = st.columns(2)
-            with p_date_col:
-                prep_date = st.date_input("Prep Date", value=date.today(), key="prep_date")
-            with p_time_col:
-                prep_time = st.time_input("Prep Time", value=time(11, 0), key="prep_time")
+            with col_form2:
+                available_locs = get_available_locations()
+                location_choices = available_locs + ["➕ Enter Custom Location..."]
+                selected_pickup = st.selectbox(
+                    "Pickup Location (Maharashtra & Zones) *",
+                    location_choices,
+                    index=0,
+                    help="Select a curated Maharashtra location or choose 'Enter Custom Location' to type manually.",
+                )
+                custom_pickup_input = st.text_input(
+                    "Custom Pickup Location (if '➕ Enter Custom Location...' selected)",
+                    placeholder="e.g. Pune - Baner, Mumbai - Borivali, Kolhapur, etc.",
+                    help="Type any specific neighborhood, street, or campus area.",
+                )
 
-            # Date and Time inputs for Pickup Deadline
-            st.markdown("**Safe Pickup Deadline ***")
-            d_date_col, d_time_col = st.columns(2)
-            with d_date_col:
-                deadline_date = st.date_input("Deadline Date", value=date.today(), key="deadline_date")
-            with d_time_col:
-                deadline_time = st.time_input("Deadline Time", value=time(16, 0), key="deadline_time")
+                # Date and Time inputs for Preparation
+                st.markdown("**Preparation Date & Time ***")
+                p_date_col, p_time_col = st.columns(2)
+                with p_date_col:
+                    prep_date = st.date_input("Prep Date", value=date.today(), key="prep_date")
+                with p_time_col:
+                    prep_time = st.time_input("Prep Time", value=time(11, 0), key="prep_time")
 
-        submitted = st.form_submit_button("🚀 Submit Donation", use_container_width=True)
+                # Date and Time inputs for Pickup Deadline
+                st.markdown("**Safe Pickup Deadline ***")
+                d_date_col, d_time_col = st.columns(2)
+                with d_date_col:
+                    deadline_date = st.date_input("Deadline Date", value=date.today(), key="deadline_date")
+                with d_time_col:
+                    deadline_time = st.time_input("Deadline Time", value=time(18, 0), key="deadline_time")
 
-        if submitted:
-            # Combine date and time to standard string representation
-            prep_datetime_str = f"{prep_date} {prep_time.strftime('%H:%M')}"
-            deadline_datetime_str = f"{deadline_date} {deadline_time.strftime('%H:%M')}"
+            submitted = st.form_submit_button("🚀 Submit Donation", use_container_width=True)
 
-            # Validate and save via data_manager
-            success, message = save_donation(
-                donor_name=donor_name,
-                food_name=food_name,
-                category=category,
-                quantity_meals=int(quantity_meals),
-                pickup_location=pickup_location,
-                prep_datetime=prep_datetime_str,
-                pickup_deadline=deadline_datetime_str,
-                status="Pending",
-            )
+            if submitted:
+                # Resolve custom location if selected
+                if selected_pickup == "➕ Enter Custom Location...":
+                    final_pickup_location = custom_pickup_input.strip()
+                else:
+                    final_pickup_location = selected_pickup.strip()
 
-            if success:
-                st.success(f"✅ Donation successfully recorded! Assigned Tracking ID: **{message}**")
-                st.balloons()
+                if not final_pickup_location:
+                    st.error("❌ Submission Error: Please select or type a valid pickup location.")
+                else:
+                    prep_datetime_str = f"{prep_date} {prep_time.strftime('%H:%M')}"
+                    deadline_datetime_str = f"{deadline_date} {deadline_time.strftime('%H:%M')}"
+
+                    success, message = save_donation(
+                        donor_name=donor_name,
+                        food_name=food_name,
+                        category=category,
+                        quantity_meals=int(quantity_meals),
+                        pickup_location=final_pickup_location,
+                        prep_datetime=prep_datetime_str,
+                        pickup_deadline=deadline_datetime_str,
+                        status="Pending",
+                    )
+
+                    if success:
+                        st.success(f"✅ Donation successfully recorded in Maharashtra registry! Tracking ID: **{message}**")
+                        st.balloons()
+                    else:
+                        st.error(f"❌ Submission Error: {message}")
+
+        # Display active pending donations
+        st.markdown("---")
+        st.subheader("⏳ Currently Pending Donations in Maharashtra")
+        donations_df = load_donations()
+        if not donations_df.empty:
+            pending_df = donations_df[donations_df["status"] == "Pending"]
+            if not pending_df.empty:
+                st.dataframe(
+                    pending_df[[
+                        "donation_id", "donor_name", "food_name", "category",
+                        "quantity_meals", "pickup_location", "pickup_deadline"
+                    ]],
+                    use_container_width=True,
+                    hide_index=True,
+                )
             else:
-                st.error(f"❌ Submission Error: {message}")
+                st.info("No donations are currently in 'Pending' status.")
 
-    # Display active pending donations
-    st.markdown("---")
-    st.subheader("⏳ Currently Pending Donations")
-    donations_df = load_donations()
-    if not donations_df.empty:
-        pending_df = donations_df[donations_df["status"] == "Pending"]
-        if not pending_df.empty:
+    # -------------------------------------------------------------------------
+    # TAB 2: REGISTER RECIPIENT / SHELTER NGO
+    # -------------------------------------------------------------------------
+    with tab_add_rec:
+        st.markdown(
+            """
+            <div class="disclaimer-badge">
+            ℹ️ Register a partner hunger-relief shelter, NGO, old-age home, or orphanage in Maharashtra. Records save directly to <code>data/recipients.csv</code>.
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        with st.form("add_recipient_form", clear_on_submit=False):
+            rcol1, rcol2 = st.columns(2)
+
+            with rcol1:
+                org_name = st.text_input(
+                    "Organization / Shelter Name *",
+                    placeholder="e.g. Annapurna Seva Parivar, Snehalaya Care",
+                    help="Official name of the non-profit, shelter, or community pantry.",
+                )
+                contact_person = st.text_input(
+                    "Contact Person / Coordinator *",
+                    placeholder="e.g. Rajesh Patil, Sunita Deshmukh",
+                    help="Name of the person coordinating food distribution.",
+                )
+                needed_meals = st.number_input(
+                    "Daily Meal Need / Capacity (Meals) *",
+                    min_value=5,
+                    max_value=3000,
+                    value=60,
+                    step=5,
+                    help="Estimated meals needed per batch/day.",
+                )
+
+            with rcol2:
+                available_locs = get_available_locations()
+                rec_loc_choices = available_locs + ["➕ Enter Custom Location..."]
+                selected_rec_loc = st.selectbox(
+                    "Shelter Location (Maharashtra & Zones) *",
+                    rec_loc_choices,
+                    index=0,
+                    help="Select a Maharashtra district/zone or choose Custom Location to enter manually.",
+                )
+                custom_rec_loc = st.text_input(
+                    "Custom Shelter Location (if '➕ Enter Custom Location...' selected)",
+                    placeholder="e.g. Pune - Hadapsar, Nashik - Gangapur Road, etc.",
+                )
+                accepted_cats = st.multiselect(
+                    "Accepted Food Categories *",
+                    ["Cooked Meals", "Bakery", "Fresh Produce", "Packaged Goods", "Dairy"],
+                    default=["Cooked Meals", "Bakery", "Packaged Goods"],
+                    help="Types of food this facility is equipped to safely accept.",
+                )
+                urgency = st.selectbox(
+                    "Urgency Level *",
+                    ["High", "Medium", "Normal"],
+                    index=0,
+                    help="Prioritizes shelters experiencing immediate food deficits.",
+                )
+
+            rec_submitted = st.form_submit_button("🏢 Register Shelter Organization", use_container_width=True)
+
+            if rec_submitted:
+                if selected_rec_loc == "➕ Enter Custom Location...":
+                    final_rec_loc = custom_rec_loc.strip()
+                else:
+                    final_rec_loc = selected_rec_loc.strip()
+
+                if not final_rec_loc:
+                    st.error("❌ Registration Error: Please select or enter a valid location.")
+                elif not accepted_cats:
+                    st.error("❌ Registration Error: Please select at least one accepted food category.")
+                else:
+                    cats_str = ";".join(accepted_cats)
+                    success, rec_message = save_recipient(
+                        organization_name=org_name,
+                        contact_person=contact_person,
+                        location=final_rec_loc,
+                        needed_meals=int(needed_meals),
+                        accepted_categories=cats_str,
+                        urgency_level=urgency,
+                        status="Active",
+                    )
+
+                    if success:
+                        st.success(f"✅ Shelter successfully registered in Maharashtra network! ID: **{rec_message}**")
+                        st.balloons()
+                    else:
+                        st.error(f"❌ Registration Error: {rec_message}")
+
+        # Display registered recipients table
+        st.markdown("---")
+        st.subheader("🏢 Active Partner Shelters & Recipients in Maharashtra")
+        recipients_df = load_recipients()
+        if not recipients_df.empty:
             st.dataframe(
-                pending_df[[
-                    "donation_id", "donor_name", "food_name", "category",
-                    "quantity_meals", "pickup_location", "pickup_deadline"
+                recipients_df[[
+                    "recipient_id", "organization_name", "contact_person",
+                    "location", "needed_meals", "accepted_categories", "urgency_level", "status"
                 ]],
                 use_container_width=True,
                 hide_index=True,
             )
-        else:
-            st.info("No donations are currently in 'Pending' status.")
+
 
 
 # -----------------------------------------------------------------------------

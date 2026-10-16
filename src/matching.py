@@ -72,6 +72,84 @@ DEMO_ZONE_DISTANCES_KM: Dict[Tuple[str, str], float] = {
     ("tech corridor gate 2", "south city center"): 4.5,
     ("tech corridor gate 2", "west market hub"): 5.0,
     ("tech corridor gate 2", "north campus hub"): 5.5,
+
+    # --- Maharashtra Regional Hubs & City Zones ---
+    # Pune Intra-City
+    ("pune - shivajinagar", "pune - shivajinagar"): 0.5,
+    ("pune - shivajinagar", "pune - kothrud"): 4.5,
+    ("pune - shivajinagar", "pune - hinjawadi (it park)"): 14.0,
+    ("pune - shivajinagar", "pune - hadapsar"): 9.0,
+    ("pune - shivajinagar", "pune - viman nagar"): 8.5,
+    ("pune - shivajinagar", "pune - pimpri-chinchwad"): 13.0,
+
+    ("pune - kothrud", "pune - kothrud"): 0.5,
+    ("pune - kothrud", "pune - hinjawadi (it park)"): 16.0,
+    ("pune - kothrud", "pune - hadapsar"): 12.0,
+    ("pune - kothrud", "pune - viman nagar"): 13.0,
+    ("pune - kothrud", "pune - pimpri-chinchwad"): 15.0,
+
+    ("pune - hinjawadi (it park)", "pune - hinjawadi (it park)"): 0.5,
+    ("pune - hinjawadi (it park)", "pune - pimpri-chinchwad"): 8.0,
+    ("pune - hinjawadi (it park)", "pune - viman nagar"): 21.0,
+    ("pune - hinjawadi (it park)", "pune - hadapsar"): 22.0,
+
+    ("pune - viman nagar", "pune - viman nagar"): 0.5,
+    ("pune - viman nagar", "pune - hadapsar"): 7.0,
+    ("pune - viman nagar", "pune - pimpri-chinchwad"): 18.0,
+
+    ("pune - hadapsar", "pune - hadapsar"): 0.5,
+    ("pune - hadapsar", "pune - pimpri-chinchwad"): 20.0,
+
+    ("pune - pimpri-chinchwad", "pune - pimpri-chinchwad"): 0.5,
+
+    # Mumbai Metropolitan Region (MMR)
+    ("mumbai - dadar", "mumbai - dadar"): 0.5,
+    ("mumbai - dadar", "mumbai - andheri"): 12.0,
+    ("mumbai - dadar", "mumbai - bandra kurla complex (bkc)"): 5.5,
+    ("mumbai - dadar", "mumbai - colaba / fort"): 11.0,
+    ("mumbai - dadar", "thane west"): 26.0,
+    ("mumbai - dadar", "navi mumbai - vashi"): 19.0,
+
+    ("mumbai - andheri", "mumbai - andheri"): 0.5,
+    ("mumbai - andheri", "mumbai - bandra kurla complex (bkc)"): 8.0,
+    ("mumbai - andheri", "mumbai - colaba / fort"): 22.0,
+    ("mumbai - andheri", "thane west"): 22.0,
+    ("mumbai - andheri", "navi mumbai - vashi"): 24.0,
+
+    ("mumbai - bandra kurla complex (bkc)", "mumbai - bandra kurla complex (bkc)"): 0.5,
+    ("mumbai - bandra kurla complex (bkc)", "mumbai - colaba / fort"): 15.0,
+    ("mumbai - bandra kurla complex (bkc)", "thane west"): 21.0,
+    ("mumbai - bandra kurla complex (bkc)", "navi mumbai - vashi"): 16.0,
+
+    ("mumbai - colaba / fort", "mumbai - colaba / fort"): 0.5,
+    ("mumbai - colaba / fort", "thane west"): 34.0,
+    ("mumbai - colaba / fort", "navi mumbai - vashi"): 28.0,
+
+    ("thane west", "thane west"): 0.5,
+    ("thane west", "navi mumbai - vashi"): 18.0,
+
+    ("navi mumbai - vashi", "navi mumbai - vashi"): 0.5,
+
+    # Other Major Maharashtra Cities
+    ("nashik - college road", "nashik - college road"): 0.5,
+    ("nagpur - sitabuldi", "nagpur - sitabuldi"): 0.5,
+    ("chhatrapati sambhajinagar", "chhatrapati sambhajinagar"): 0.5,
+    ("kolhapur - shahupuri", "kolhapur - shahupuri"): 0.5,
+    ("solapur central", "solapur central"): 0.5,
+
+    # Inter-City Corridor Distances (km)
+    ("pune - shivajinagar", "mumbai - dadar"): 148.0,
+    ("pune - shivajinagar", "nashik - college road"): 210.0,
+    ("pune - shivajinagar", "chhatrapati sambhajinagar"): 235.0,
+    ("pune - shivajinagar", "kolhapur - shahupuri"): 230.0,
+    ("pune - shivajinagar", "solapur central"): 250.0,
+    ("pune - shivajinagar", "nagpur - sitabuldi"): 710.0,
+
+    ("mumbai - dadar", "nashik - college road"): 165.0,
+    ("mumbai - dadar", "chhatrapati sambhajinagar"): 330.0,
+    ("mumbai - dadar", "nagpur - sitabuldi"): 800.0,
+    ("nashik - college road", "chhatrapati sambhajinagar"): 180.0,
+    ("chhatrapati sambhajinagar", "nagpur - sitabuldi"): 470.0,
 }
 
 
@@ -85,6 +163,7 @@ def estimate_zone_distance(
     Requirements Handled:
     - If donor and recipient are in the same zone: ~0.5 km (Same Zone).
     - If known in demo zone matrix: returns documented estimated km.
+    - If both locations are in same Maharashtra city (e.g. Pune, Mumbai, etc.): estimates intra-city distance.
     - If either location is missing, blank, or unrecognized: returns (None, "Unknown Zone / Missing Location").
 
     Returns:
@@ -112,7 +191,24 @@ def estimate_zone_distance(
         dist = DEMO_ZONE_DISTANCES_KM[rev_key]
         return dist, f"Estimated ~{dist:.1f} km (Demo Reference Matrix)"
 
+    # Smart heuristics for custom manually entered locations within common Maharashtra hubs
+    for city_key, approx_km in [
+        ("pune", 7.0),
+        ("mumbai", 12.0),
+        ("thane", 6.0),
+        ("navi mumbai", 8.0),
+        ("nashik", 6.5),
+        ("nagpur", 8.0),
+        ("sambhajinagar", 6.0),
+        ("aurangabad", 6.0),
+        ("kolhapur", 5.0),
+        ("solapur", 5.0),
+    ]:
+        if city_key in loc1 and city_key in loc2:
+            return approx_km, f"Estimated ~{approx_km:.1f} km (Same City: {city_key.capitalize()} Intra-Zone)"
+
     return None, "Unknown Zone / External Location"
+
 
 
 # -----------------------------------------------------------------------------

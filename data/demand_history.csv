@@ -1,51 +1,53 @@
 date,location,category,meals_demanded,meals_supplied
-2026-09-15,Downtown Station,Cooked Meals,120,105
-2026-09-15,North Campus Hub,Cooked Meals,140,130
-2026-09-16,West Market Hub,Fresh Produce,95,85
-2026-09-16,East Wing Plaza,Cooked Meals,80,80
-2026-09-17,South City Center,Bakery,60,50
-2026-09-17,Tech Corridor Gate 2,Cooked Meals,110,95
-2026-09-18,Downtown Station,Cooked Meals,130,120
-2026-09-18,North Campus Hub,Dairy,75,70
-2026-09-19,West Market Hub,Packaged Goods,100,90
-2026-09-19,South City Center,Cooked Meals,85,75
-2026-09-20,North Campus Hub,Cooked Meals,150,140
-2026-09-20,East Wing Plaza,Bakery,50,45
-2026-09-21,Downtown Station,Cooked Meals,125,115
-2026-09-21,Tech Corridor Gate 2,Cooked Meals,105,100
-2026-09-22,West Market Hub,Fresh Produce,110,95
-2026-09-22,North Campus Hub,Cooked Meals,145,135
-2026-09-23,South City Center,Packaged Goods,70,65
-2026-09-23,Downtown Station,Cooked Meals,135,125
-2026-09-24,East Wing Plaza,Cooked Meals,90,85
-2026-09-24,North Campus Hub,Dairy,80,75
-2026-09-25,Tech Corridor Gate 2,Cooked Meals,115,105
-2026-09-25,West Market Hub,Fresh Produce,100,90
-2026-09-26,Downtown Station,Cooked Meals,140,130
-2026-09-26,South City Center,Bakery,65,60
-2026-09-27,North Campus Hub,Cooked Meals,160,150
-2026-09-27,East Wing Plaza,Cooked Meals,95,90
-2026-09-28,Downtown Station,Cooked Meals,130,120
-2026-09-28,Tech Corridor Gate 2,Cooked Meals,110,100
-2026-09-29,West Market Hub,Packaged Goods,120,110
-2026-09-29,North Campus Hub,Cooked Meals,155,145
-2026-09-30,South City Center,Cooked Meals,90,80
-2026-09-30,Downtown Station,Cooked Meals,135,125
-2026-10-01,North Campus Hub,Dairy,85,80
-2026-10-01,East Wing Plaza,Cooked Meals,100,90
-2026-10-02,Downtown Station,Cooked Meals,145,135
-2026-10-02,West Market Hub,Fresh Produce,105,95
-2026-10-03,Tech Corridor Gate 2,Cooked Meals,120,110
-2026-10-03,South City Center,Bakery,70,65
-2026-10-04,North Campus Hub,Cooked Meals,165,155
-2026-10-04,East Wing Plaza,Cooked Meals,90,85
-2026-10-05,Downtown Station,Cooked Meals,140,130
-2026-10-06,West Market Hub,Packaged Goods,115,105
-2026-10-07,North Campus Hub,Cooked Meals,170,160
-2026-10-08,Downtown Station,Cooked Meals,135,125
-2026-10-09,Tech Corridor Gate 2,Cooked Meals,125,115
-2026-10-10,South City Center,Cooked Meals,95,85
-2026-10-11,North Campus Hub,Fresh Produce,110,100
-2026-10-12,East Wing Plaza,Bakery,60,55
-2026-10-13,Downtown Station,Cooked Meals,140,130
-2026-10-14,North Campus Hub,Cooked Meals,150,140
+2026-09-15,Pune - Shivajinagar,Cooked Meals,145,130
+2026-09-15,Mumbai - Dadar,Cooked Meals,160,150
+2026-09-16,Pune - Kothrud,Fresh Produce,95,85
+2026-09-16,Thane West,Cooked Meals,110,100
+2026-09-17,Mumbai - Andheri,Bakery,70,60
+2026-09-17,Pune - Hinjawadi (IT Park),Cooked Meals,180,165
+2026-09-18,Navi Mumbai - Vashi,Cooked Meals,130,120
+2026-09-18,Pune - Shivajinagar,Dairy,75,70
+2026-09-19,Nashik - College Road,Packaged Goods,100,90
+2026-09-19,Nagpur - Sitabuldi,Cooked Meals,120,110
+2026-09-20,Pune - Shivajinagar,Cooked Meals,150,140
+2026-09-20,Mumbai - Dadar,Bakery,60,55
+2026-09-21,Pune - Kothrud,Cooked Meals,125,115
+2026-09-21,Pune - Hinjawadi (IT Park),Cooked Meals,175,160
+2026-09-22,Thane West,Fresh Produce,110,95
+2026-09-22,Pune - Shivajinagar,Cooked Meals,145,135
+2026-09-23,Mumbai - Andheri,Packaged Goods,85,75
+2026-09-23,Navi Mumbai - Vashi,Cooked Meals,135,125
+2026-09-24,Pune - Viman Nagar,Cooked Meals,95,90
+2026-09-24,Pune - Kothrud,Dairy,80,75
+2026-09-25,Pune - Hinjawadi (IT Park),Cooked Meals,190,175
+2026-09-25,Nashik - College Road,Fresh Produce,100,90
+2026-09-26,Mumbai - Dadar,Cooked Meals,150,140
+2026-09-26,Mumbai - Colaba / Fort,Bakery,65,60
+2026-09-27,Pune - Shivajinagar,Cooked Meals,160,150
+2026-09-27,Pune - Hadapsar,Packaged Goods,90,80
+2026-09-28,Pune - Kothrud,Cooked Meals,130,120
+2026-09-28,Nagpur - Sitabuldi,Cooked Meals,115,105
+2026-09-29,Pune - Hinjawadi (IT Park),Cooked Meals,185,170
+2026-09-29,Chhatrapati Sambhajinagar,Dairy,70,65
+2026-09-30,Mumbai - Dadar,Cooked Meals,155,145
+2026-09-30,Thane West,Cooked Meals,105,95
+2026-10-01,Pune - Shivajinagar,Cooked Meals,140,130
+2026-10-01,Navi Mumbai - Vashi,Fresh Produce,115,105
+2026-10-02,Pune - Kothrud,Bakery,55,50
+2026-10-02,Mumbai - Andheri,Cooked Meals,165,150
+2026-10-03,Pune - Hinjawadi (IT Park),Cooked Meals,170,160
+2026-10-03,Kolhapur - Shahupuri,Cooked Meals,95,90
+2026-10-04,Pune - Shivajinagar,Fresh Produce,105,95
+2026-10-04,Mumbai - Dadar,Cooked Meals,140,130
+2026-10-05,Thane West,Packaged Goods,90,85
+2026-10-05,Pune - Kothrud,Dairy,70,65
+2026-10-06,Pune - Hinjawadi (IT Park),Cooked Meals,180,165
+2026-10-06,Mumbai - Andheri,Cooked Meals,150,140
+2026-10-07,Pune - Shivajinagar,Cooked Meals,155,145
+2026-10-07,Nashik - College Road,Cooked Meals,100,90
+2026-10-08,Pune - Viman Nagar,Bakery,60,55
+2026-10-08,Navi Mumbai - Vashi,Cooked Meals,140,130
+2026-10-09,Mumbai - Dadar,Cooked Meals,160,150
+2026-10-09,Pune - Kothrud,Fresh Produce,110,100
+2026-10-10,Pune - Hinjawadi (IT Park),Cooked Meals,195,180
+2026-10-10,Nagpur - Sitabuldi,Dairy,85,80

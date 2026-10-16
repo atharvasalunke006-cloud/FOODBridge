@@ -37,6 +37,7 @@ desktop.ini
 *.swp
 *.swo
 
-# Logs
+# Logs & scratch
 *.log
+Motor Health Monitor*.txt
 

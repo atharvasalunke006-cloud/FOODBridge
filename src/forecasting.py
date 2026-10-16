@@ -44,6 +44,23 @@ EXPECTED_FEATURE_COLUMNS = [
 ]
 
 KNOWN_LOCATIONS = [
+    "Pune - Shivajinagar",
+    "Pune - Kothrud",
+    "Pune - Hinjawadi (IT Park)",
+    "Pune - Hadapsar",
+    "Pune - Viman Nagar",
+    "Pune - Pimpri-Chinchwad",
+    "Mumbai - Dadar",
+    "Mumbai - Andheri",
+    "Mumbai - Bandra Kurla Complex (BKC)",
+    "Mumbai - Colaba / Fort",
+    "Thane West",
+    "Navi Mumbai - Vashi",
+    "Nashik - College Road",
+    "Nagpur - Sitabuldi",
+    "Chhatrapati Sambhajinagar",
+    "Kolhapur - Shahupuri",
+    "Solapur Central",
     "North Campus Hub",
     "Downtown Station",
     "Tech Corridor Gate 2",
@@ -51,6 +68,7 @@ KNOWN_LOCATIONS = [
     "West Market Hub",
     "South City Center",
 ]
+
 
 KNOWN_CATEGORIES = [
     "Cooked Meals",
