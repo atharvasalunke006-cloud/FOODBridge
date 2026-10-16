@@ -168,15 +168,22 @@ with st.sidebar:
     )
 
     st.markdown("---")
-    st.markdown("### 📌 Project Info")
+    st.markdown("### 📌 System Info")
+    from src.supabase_client import is_supabase_connected
+    if is_supabase_connected():
+        st.success("🟢 **Database:** Supabase Cloud (Live)")
+    else:
+        st.info("📁 **Database:** Local CSV (Supabase Ready)")
+
     st.markdown(
         """
         - **Platform:** Streamlit Web App
-        - **Storage:** Local CSV Files
+        - **Region:** Maharashtra Network
         - **Status:** Milestone 1 Prototype
         - **Target:** College Food Waste Reduction
         """
     )
+
 
     st.markdown("---")
     st.markdown(

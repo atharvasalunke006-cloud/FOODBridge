@@ -20,6 +20,20 @@ from pathlib import Path
 from typing import Any, Dict, Optional, Tuple
 import pandas as pd
 
+from src.supabase_client import (
+    is_supabase_connected,
+    fetch_donations_supabase,
+    insert_donation_supabase,
+    update_donation_status_supabase,
+    fetch_recipients_supabase,
+    insert_recipient_supabase,
+    update_recipient_needed_meals_supabase,
+    fetch_allocations_supabase,
+    insert_allocations_supabase,
+    fetch_demand_history_supabase,
+)
+
+
 # Anchor BASE_DIR to the root of the project (one level up from src/)
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR / "data"
@@ -135,19 +149,27 @@ def ensure_data_directory() -> None:
 
 def load_donations() -> pd.DataFrame:
     """
-    Loads all food donation records from CSV.
+    Loads all food donation records.
+    Prioritizes live Supabase cloud database if configured, otherwise falls back to local CSV.
     
     Returns:
         pd.DataFrame: Contains donation records with proper datatypes.
     """
+    # 1. Try Supabase Cloud
+    try:
+        remote_df = fetch_donations_supabase()
+        if remote_df is not None and not remote_df.empty:
+            return remote_df
+    except Exception:
+        pass
+
+    # 2. Local CSV Fallback
     ensure_data_directory()
     if not DONATIONS_FILE.exists():
-        # Return an empty DataFrame matching our expected schema
         return pd.DataFrame(columns=DONATION_COLUMNS)
 
     try:
         df = pd.read_csv(DONATIONS_FILE, encoding="utf-8")
-        # Ensure quantity_meals is treated as an integer
         if "quantity_meals" in df.columns:
             df["quantity_meals"] = pd.to_numeric(df["quantity_meals"], errors="coerce").fillna(0).astype(int)
         return df
@@ -159,10 +181,20 @@ def load_donations() -> pd.DataFrame:
 def load_recipients() -> pd.DataFrame:
     """
     Loads recipient organizations and their current meal needs.
+    Prioritizes live Supabase cloud database if configured, otherwise falls back to local CSV.
     
     Returns:
         pd.DataFrame: Contains recipient profiles and requirements.
     """
+    # 1. Try Supabase Cloud
+    try:
+        remote_df = fetch_recipients_supabase()
+        if remote_df is not None and not remote_df.empty:
+            return remote_df
+    except Exception:
+        pass
+
+    # 2. Local CSV Fallback
     ensure_data_directory()
     if not RECIPIENTS_FILE.exists():
         return pd.DataFrame(columns=RECIPIENT_COLUMNS)
@@ -180,10 +212,20 @@ def load_recipients() -> pd.DataFrame:
 def load_demand_history() -> pd.DataFrame:
     """
     Loads historical daily demand records across zones.
+    Prioritizes live Supabase cloud database if configured, otherwise falls back to local CSV.
     
     Returns:
         pd.DataFrame: Contains historical meal demand and supply stats.
     """
+    # 1. Try Supabase Cloud
+    try:
+        remote_df = fetch_demand_history_supabase()
+        if remote_df is not None and not remote_df.empty:
+            return remote_df
+    except Exception:
+        pass
+
+    # 2. Local CSV Fallback
     ensure_data_directory()
     if not DEMAND_HISTORY_FILE.exists():
         return pd.DataFrame(columns=DEMAND_COLUMNS)
@@ -200,6 +242,7 @@ def load_demand_history() -> pd.DataFrame:
     except Exception as e:
         print(f"Error loading demand history: {e}")
         return pd.DataFrame(columns=DEMAND_COLUMNS)
+
 
 
 def generate_donation_id(df: pd.DataFrame) -> str:
@@ -301,13 +344,20 @@ def save_donation(
     # Append row
     updated_df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
 
-    # Save safely to CSV
+    # 1. Sync to Supabase if connected
+    try:
+        insert_donation_supabase(new_row)
+    except Exception as e:
+        print(f"Supabase donation sync notice: {e}")
+
+    # 2. Save safely to local CSV
     try:
         ensure_data_directory()
         updated_df.to_csv(DONATIONS_FILE, index=False, encoding="utf-8")
         return True, new_id
     except Exception as e:
         return False, f"Failed to save donation to file: {str(e)}"
+
 
 
 def generate_recipient_id(df: pd.DataFrame) -> str:
@@ -390,14 +440,23 @@ def save_recipient(
         "status": status,
     }
 
+    # Append row
     updated_df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
 
+    # 1. Sync to Supabase if connected
+    try:
+        insert_recipient_supabase(new_row)
+    except Exception as e:
+        print(f"Supabase recipient sync notice: {e}")
+
+    # 2. Save safely to local CSV
     try:
         ensure_data_directory()
         updated_df.to_csv(RECIPIENTS_FILE, index=False, encoding="utf-8")
         return True, new_id
     except Exception as e:
         return False, f"Failed to save recipient to file: {str(e)}"
+
 
 
 def get_summary_metrics() -> Dict[str, Any]:
@@ -446,11 +505,21 @@ def get_summary_metrics() -> Dict[str, Any]:
 
 def load_allocations() -> pd.DataFrame:
     """
-    Loads saved matching allocation records from data/allocations.csv.
+    Loads saved matching allocation records.
+    Prioritizes Supabase cloud database if configured, otherwise falls back to local CSV.
 
     Returns:
         pd.DataFrame: Table of allocated meals and match history.
     """
+    # 1. Try Supabase Cloud
+    try:
+        remote_df = fetch_allocations_supabase()
+        if remote_df is not None and not remote_df.empty:
+            return remote_df
+    except Exception:
+        pass
+
+    # 2. Local CSV Fallback
     ensure_data_directory()
     if not ALLOCATIONS_FILE.exists():
         return pd.DataFrame(columns=ALLOCATION_COLUMNS)
@@ -465,6 +534,7 @@ def load_allocations() -> pd.DataFrame:
     except Exception as e:
         print(f"Error loading allocations: {e}")
         return pd.DataFrame(columns=ALLOCATION_COLUMNS)
+
 
 
 def generate_allocation_id(df: pd.DataFrame) -> str:
@@ -620,16 +690,37 @@ def commit_allocation_plan(
         }
         donations_df = pd.concat([donations_df, pd.DataFrame([remainder_row])], ignore_index=True)
 
-    # 6. Save all files safely
+    # 6. Save all files safely to CSV
     try:
         ensure_data_directory()
         donations_df.to_csv(DONATIONS_FILE, index=False, encoding="utf-8")
         recipients_df.to_csv(RECIPIENTS_FILE, index=False, encoding="utf-8")
         current_alloc_df.to_csv(ALLOCATIONS_FILE, index=False, encoding="utf-8")
+
+        # 7. Sync to Supabase cloud if connected
+        try:
+            if created_records:
+                insert_allocations_supabase(created_records)
+            for item in allocations:
+                rec_id = item.get("recipient_id")
+                rec_matches = recipients_df[recipients_df["recipient_id"] == rec_id]
+                if not rec_matches.empty:
+                    update_recipient_needed_meals_supabase(rec_id, int(rec_matches.iloc[0]["needed_meals"]))
+            update_donation_status_supabase(
+                donation_id,
+                "Matched",
+                int(donations_df.loc[don_idx, "quantity_meals"])
+            )
+            if remainder_meals > 0:
+                insert_donation_supabase(remainder_row)
+        except Exception as e:
+            print(f"Supabase allocation sync notice: {e}")
+
         msg = f"Successfully allocated {total_to_allocate} meals across {len(created_records)} recipient(s)."
         if remainder_meals > 0:
             msg += f" Remaining balance of {remainder_meals} meals saved as new pending listing."
         return True, msg, created_records
     except Exception as e:
         return False, f"Failed to persist allocations to disk: {str(e)}", []
+
 
